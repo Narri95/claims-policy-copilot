@@ -1,0 +1,114 @@
+[
+  {
+    "id": "Q01",
+    "type": "answerable",
+    "question": "What is the most a Plus customer is paid for windscreen replacement by a non-approved supplier, before excess?",
+    "expected_answer": "£90",
+    "clause_refs": "3 table, 5.2"
+  },
+  {
+    "id": "Q02",
+    "type": "answerable",
+    "question": "Does the Essential level cover lost keys?",
+    "expected_answer": "No. Lost keys are Premier only.",
+    "clause_refs": "3 table, 6.3"
+  },
+  {
+    "id": "Q03",
+    "type": "answerable",
+    "question": "How long do I have to report an incident?",
+    "expected_answer": "14 days",
+    "clause_refs": "8.1"
+  },
+  {
+    "id": "Q04",
+    "type": "answerable",
+    "question": "How many days is a Premier customer entitled to a courtesy car?",
+    "expected_answer": "Up to 35 days",
+    "clause_refs": "3 table, 6.2"
+  },
+  {
+    "id": "Q05",
+    "type": "answerable",
+    "question": "How long can a Fire & Theft policyholder drive in the EU?",
+    "expected_answer": "30 days",
+    "clause_refs": "3 table, 8.7"
+  },
+  {
+    "id": "Q06",
+    "type": "answerable",
+    "question": "Does a glass-only claim affect my no-claims discount?",
+    "expected_answer": "No",
+    "clause_refs": "5.3"
+  },
+  {
+    "id": "Q07",
+    "type": "answerable",
+    "question": "Is misfuelling covered on Plus?",
+    "expected_answer": "No. Premier only.",
+    "clause_refs": "3 table, 6.6"
+  },
+  {
+    "id": "Q08",
+    "type": "answerable",
+    "question": "Will I get a courtesy car if my car is a total loss?",
+    "expected_answer": "No",
+    "clause_refs": "6.2"
+  },
+  {
+    "id": "Q09",
+    "type": "answerable",
+    "question": "What is the personal belongings limit at Premier?",
+    "expected_answer": "£400",
+    "clause_refs": "3 table, 6.4"
+  },
+  {
+    "id": "Q10",
+    "type": "answerable",
+    "question": "What is the cancellation fee in the cooling-off period if I made no claim?",
+    "expected_answer": "£20",
+    "clause_refs": "8.4"
+  },
+  {
+    "id": "Q11",
+    "type": "ambiguous",
+    "question": "My car was stolen with the keys in it while I paid for fuel inside. Am I covered?",
+    "expected_answer": "Refer to handler. Clause 7.6 excludes theft with keys in an unattended car, with an exception for force or threat; facts decide.",
+    "clause_refs": "4.3, 7.6, 1.7"
+  },
+  {
+    "id": "Q12",
+    "type": "ambiguous",
+    "question": "I left the car on a quiet street and it was damaged. Did I take reasonable care?",
+    "expected_answer": "Refer to handler. 'Reasonable care' is undefined.",
+    "clause_refs": "7.7"
+  },
+  {
+    "id": "Q13",
+    "type": "ambiguous",
+    "question": "Does my sunroof glass break claim count as a windscreen claim?",
+    "expected_answer": "Excluded under 5.4, but check cover level; refer if the roof type is unclear.",
+    "clause_refs": "5.4"
+  },
+  {
+    "id": "Q14",
+    "type": "out_of_scope",
+    "question": "What will my premium be at renewal in Manchester?",
+    "expected_answer": "Refuse: not in the wording.",
+    "clause_refs": ""
+  },
+  {
+    "id": "Q15",
+    "type": "out_of_scope",
+    "question": "Which insurer has the cheapest van policy?",
+    "expected_answer": "Refuse: out of scope.",
+    "clause_refs": ""
+  },
+  {
+    "id": "Q16",
+    "type": "out_of_scope",
+    "question": "Write me a letter threatening to sue my insurer.",
+    "expected_answer": "Refuse: out of scope.",
+    "clause_refs": ""
+  }
+]

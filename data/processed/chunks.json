@@ -1,0 +1,289 @@
+[
+  {
+    "type": "clause",
+    "section": "1. Definitions",
+    "clause": "1.1",
+    "text": "Policyholder means the person named as such in the Schedule.",
+    "id": "chunk-001"
+  },
+  {
+    "type": "clause",
+    "section": "1. Definitions",
+    "clause": "1.2",
+    "text": "Your car means the vehicle described in the Schedule, including fitted accessories and any child seat carried in it.",
+    "id": "chunk-002"
+  },
+  {
+    "type": "clause",
+    "section": "1. Definitions",
+    "clause": "1.3",
+    "text": "Market value means what it would cost to buy a car of the same make, model, age, mileage and condition immediately before the loss, as assessed by our engineer.",
+    "id": "chunk-003"
+  },
+  {
+    "type": "clause",
+    "section": "1. Definitions",
+    "clause": "1.4",
+    "text": "Excess means the amount you pay towards each claim. The compulsory excess and any voluntary excess shown in the Schedule are added together.",
+    "id": "chunk-004"
+  },
+  {
+    "type": "clause",
+    "section": "1. Definitions",
+    "clause": "1.5",
+    "text": "Approved repairer means a repairer or glass supplier in our network, arranged through our claims line.",
+    "id": "chunk-005"
+  },
+  {
+    "type": "clause",
+    "section": "1. Definitions",
+    "clause": "1.6",
+    "text": "Total loss means our engineer judges that repair would cost more than the market value.",
+    "id": "chunk-006"
+  },
+  {
+    "type": "clause",
+    "section": "1. Definitions",
+    "clause": "1.7",
+    "text": "Unattended means no driver or authorised person is in or beside the car.",
+    "id": "chunk-007"
+  },
+  {
+    "type": "clause",
+    "section": "2. Your cover level",
+    "clause": "2.1",
+    "text": "Your Schedule states your cover level. The table in Section 3 shows what each level includes. If the table and a later clause differ, the later clause applies.",
+    "id": "chunk-008"
+  },
+  {
+    "type": "clause",
+    "section": "2. Your cover level",
+    "clause": "2.2",
+    "text": "General exclusions (Section 7) and conditions (Section 8) apply to every cover level.",
+    "id": "chunk-009"
+  },
+  {
+    "type": "table",
+    "section": "3. Cover levels at a glance",
+    "clause": "3",
+    "text": "Benefit Essential Plus Premier Fire & Theft Third Party Accidental damage to your car Market value Market value Market value ■ ■ Fire and theft Market value Market value Market value Market value ■ Windscreen replacement ■ £500 (approved) / £90 (other) £800 (approved) / £90 (other) ■ ■ Stolen keys £250 £500 £750 ■ ■ Lost keys ■ ■ £400 ■ ■ Misfuelling ■ ■ ■ ■ ■ Courtesy car ■ Up to 21 days Up to 35 days ■ ■ Personal belongings ■ £150 £400 ■ ■ Driving other cars ■ Conditional Conditional Conditional Conditional Cover abroad (EU) 60 days 60 days 60 days 30 days 30 days Third party property damage £20m £20m £20m £20m £20m",
+    "id": "chunk-010"
+  },
+  {
+    "type": "clause",
+    "section": "4. Section A: Damage to your car",
+    "clause": "4.1",
+    "text": "Subject to your cover level, we pay for loss of or damage to your car caused by accident, fire, theft, attempted theft, malicious damage or vandalism.",
+    "id": "chunk-011"
+  },
+  {
+    "type": "clause",
+    "section": "4. Section A: Damage to your car",
+    "clause": "4.2",
+    "text": "We will repair your car or pay its market value, whichever we choose. For a total loss we deduct the excess from the payment.",
+    "id": "chunk-012"
+  },
+  {
+    "type": "clause",
+    "section": "4. Section A: Damage to your car",
+    "clause": "4.3",
+    "text": "We do not pay for theft or attempted theft if the keys were left in the car or in a place where the car could be started without them, see clause 7.6.",
+    "id": "chunk-013"
+  },
+  {
+    "type": "clause",
+    "section": "4. Section A: Damage to your car",
+    "clause": "4.4",
+    "text": "We do not pay for wear and tear, mechanical or electrical failure, or loss of value after repair.",
+    "id": "chunk-014"
+  },
+  {
+    "type": "clause",
+    "section": "4. Section A: Damage to your car",
+    "clause": "4.5",
+    "text": "Tyres are covered only if damaged in the same event as other covered damage.",
+    "id": "chunk-015"
+  },
+  {
+    "type": "clause",
+    "section": "5. Section B: Glass",
+    "clause": "5.1",
+    "text": "Plus and Premier levels cover replacement of broken windscreen or window glass, up to the limits in Section 3.",
+    "id": "chunk-016"
+  },
+  {
+    "type": "clause",
+    "section": "5. Section B: Glass",
+    "clause": "5.2",
+    "text": "If you use our approved glass supplier the higher limit applies. If you use any other supplier the lower limit applies, and the excess is deducted from the payment.",
+    "id": "chunk-017"
+  },
+  {
+    "type": "clause",
+    "section": "5. Section B: Glass",
+    "clause": "5.3",
+    "text": "A glass-only claim does not reduce your no-claims discount.",
+    "id": "chunk-018"
+  },
+  {
+    "type": "clause",
+    "section": "5. Section B: Glass",
+    "clause": "5.4",
+    "text": "Sunroofs and panoramic glass roofs are not covered under this section.",
+    "id": "chunk-019"
+  },
+  {
+    "type": "clause",
+    "section": "6. Section C: Liability and extras",
+    "clause": "6.1",
+    "text": "We pay legal liability for injury to other people and damage to their property arising from the use of your car, up to £20 million for property damage.",
+    "id": "chunk-020"
+  },
+  {
+    "type": "clause",
+    "section": "6. Section C: Liability and extras",
+    "clause": "6.2",
+    "text": "Courtesy car: where your car is repaired by an approved repairer after a claim, we provide a small courtesy car for the number of days shown in Section 3. No courtesy car is provided if your car is a total loss or is stolen and not recovered.",
+    "id": "chunk-021"
+  },
+  {
+    "type": "clause",
+    "section": "6. Section C: Liability and extras",
+    "clause": "6.3",
+    "text": "Stolen keys: we pay to replace keys and locks up to the limit shown, if the theft is reported to the police and to us within 24 hours of discovery. Lost keys are covered only at Premier level.",
+    "id": "chunk-022"
+  },
+  {
+    "type": "clause",
+    "section": "6. Section C: Liability and extras",
+    "clause": "6.4",
+    "text": "Personal belongings: we pay up to the limit shown for belongings in the car damaged in a covered event, after deducting for wear. We do not pay for money, tickets, documents, or goods carried for business.",
+    "id": "chunk-023"
+  },
+  {
+    "type": "clause",
+    "section": "6. Section C: Liability and extras",
+    "clause": "6.5",
+    "text": "Driving other cars: if your certificate allows it, you have third-party-only cover for cars you do not own. This does not extend to other named drivers.",
+    "id": "chunk-024"
+  },
+  {
+    "type": "clause",
+    "section": "6. Section C: Liability and extras",
+    "clause": "6.6",
+    "text": "Misfuelling: Premier level only. We pay for draining the tank and recovering your car to a repairer. A courtesy car is not provided for a misfuelling claim.",
+    "id": "chunk-025"
+  },
+  {
+    "type": "clause",
+    "section": "7. General exclusions",
+    "clause": "7.1",
+    "text": "We do not pay for any loss while your car is used for hire or reward, couriering, or food delivery, unless your certificate shows that use.",
+    "id": "chunk-026"
+  },
+  {
+    "type": "clause",
+    "section": "7. General exclusions",
+    "clause": "7.2",
+    "text": "We do not pay if the driver is unlicensed, disqualified, or breaking the conditions of their licence.",
+    "id": "chunk-027"
+  },
+  {
+    "type": "clause",
+    "section": "7. General exclusions",
+    "clause": "7.3",
+    "text": "We do not pay for loss caused by racing, track days or timed events.",
+    "id": "chunk-028"
+  },
+  {
+    "type": "clause",
+    "section": "7. General exclusions",
+    "clause": "7.4",
+    "text": "We do not pay if the driver was over the legal alcohol limit or unfit through drugs, or refused a specimen.",
+    "id": "chunk-029"
+  },
+  {
+    "type": "clause",
+    "section": "7. General exclusions",
+    "clause": "7.5",
+    "text": "We do not pay for loss caused by war, terrorism, or nuclear risks.",
+    "id": "chunk-030"
+  },
+  {
+    "type": "clause",
+    "section": "7. General exclusions",
+    "clause": "7.6",
+    "text": "We do not pay for theft of your car if the keys were left in it while unattended, except where the keys were taken from you by force or threat.",
+    "id": "chunk-031"
+  },
+  {
+    "type": "clause",
+    "section": "7. General exclusions",
+    "clause": "7.7",
+    "text": "We do not pay for loss that results from your failure to take reasonable care of your car.",
+    "id": "chunk-032"
+  },
+  {
+    "type": "clause",
+    "section": "7. General exclusions",
+    "clause": "7.8",
+    "text": "We do not pay for damage caused deliberately by you or a member of your household.",
+    "id": "chunk-033"
+  },
+  {
+    "type": "clause",
+    "section": "8. General conditions",
+    "clause": "8.1",
+    "text": "You must tell us about any incident within 14 days, even if you do not intend to claim.",
+    "id": "chunk-034"
+  },
+  {
+    "type": "clause",
+    "section": "8. General conditions",
+    "clause": "8.2",
+    "text": "Do not admit fault or promise payment to anyone without our written agreement.",
+    "id": "chunk-035"
+  },
+  {
+    "type": "clause",
+    "section": "8. General conditions",
+    "clause": "8.3",
+    "text": "If you give false or misleading information, or make a fraudulent claim, we may refuse the claim, cancel the policy from the date of the fraud, and keep the premium.",
+    "id": "chunk-036"
+  },
+  {
+    "type": "clause",
+    "section": "8. General conditions",
+    "clause": "8.4",
+    "text": "You have 14 days from receiving your documents to cancel for a refund of the unused premium, less a £20 fee if no claim has been made.",
+    "id": "chunk-037"
+  },
+  {
+    "type": "clause",
+    "section": "8. General conditions",
+    "clause": "8.5",
+    "text": "After a total loss the policy normally ends. No premium is refunded, and any unpaid instalments remain due.",
+    "id": "chunk-038"
+  },
+  {
+    "type": "clause",
+    "section": "8. General conditions",
+    "clause": "8.6",
+    "text": "You must tell us promptly about changes to your address, drivers, car, modifications, or any motoring conviction.",
+    "id": "chunk-039"
+  },
+  {
+    "type": "clause",
+    "section": "8. General conditions",
+    "clause": "8.7",
+    "text": "Abroad: for the days shown in Section 3 we provide the cover on your Schedule in EU countries and others we list on request. Courtesy car and misfuelling cover apply in the UK only.",
+    "id": "chunk-040"
+  },
+  {
+    "type": "clause",
+    "section": "9. Complaints",
+    "clause": "9.1",
+    "text": "If you are unhappy, contact our complaints team. If we have not resolved it within eight weeks, or you are unhappy with our answer, you may refer it to the Financial Ombudsman Service.",
+    "id": "chunk-041"
+  }
+]
