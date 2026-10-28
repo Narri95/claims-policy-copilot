@@ -4,3 +4,4 @@ __pycache__/
 data/external/
 *.pyc
 .ipynb_checkpoints/
+logs/
