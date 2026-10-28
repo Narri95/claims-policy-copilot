@@ -4,3 +4,4 @@ azure-ai-projects
 pytest
 pypdf
 numpy
+azure-ai-documentintelligence
