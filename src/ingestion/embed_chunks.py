@@ -13,12 +13,15 @@ HOW TO RUN (project root, virtual environment active)
     python src/ingestion/embed_chunks.py
 
 INPUT   data/processed/chunks.json          (made by chunk_wording.py)
+        data/processed/table_chunks.json    (made by extract_table.py, optional)
 OUTPUT  data/processed/chunks_embedded.json the chunks that were embedded
         data/processed/embeddings.npy       one row of numbers per chunk,
                                             in the same order as the JSON
 
-The table chunk is skipped on purpose: its tick/cross icons were lost during
-PDF extraction, so it could produce confidently wrong answers.
+The old flat "table" chunk is still skipped: its coloured symbols were lost in
+plain text extraction. Instead, if data/processed/table_chunks.json exists
+(made by extract_table.py, which reads the symbols by colour), its one-row-per-
+benefit chunks are embedded too. Run extract_table.py first, then this file.
 """
 import json
 import sys
@@ -35,10 +38,16 @@ BATCH_SIZE = 16   # clauses sent to the model per request (fewer, bigger calls)
 
 
 def load_clause_chunks() -> list[dict]:
-    """Load chunks.json and keep only clause chunks (not the table)."""
+    """Clause chunks, plus the table-row chunks if extract_table.py has run."""
     with open(DATA_DIR / "chunks.json", encoding="utf-8") as f:
-        chunks = json.load(f)
-    return [c for c in chunks if c["type"] == "clause"]
+        chunks = [c for c in json.load(f) if c["type"] == "clause"]
+    table_file = DATA_DIR / "table_chunks.json"
+    if table_file.exists():
+        with open(table_file, encoding="utf-8") as f:
+            chunks += json.load(f)
+    else:
+        print("Note: table_chunks.json not found; the cover-level table is not searchable.")
+    return chunks
 
 
 def embed_texts(texts: list[str]) -> np.ndarray:
@@ -57,7 +66,7 @@ def embed_texts(texts: list[str]) -> np.ndarray:
 
 def main() -> None:
     chunks = load_clause_chunks()
-    print(f"Embedding {len(chunks)} clause chunks with '{EMBED_DEPLOYMENT}'...")
+    print(f"Embedding {len(chunks)} chunks with '{EMBED_DEPLOYMENT}'...")
 
     # Put the section and clause number in front of the text so the vector
     # also carries "which part of the policy is this".

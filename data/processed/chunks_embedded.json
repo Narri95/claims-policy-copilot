@@ -278,5 +278,82 @@
     "clause": "9.1",
     "text": "If you are unhappy, contact our complaints team. If we have not resolved it within eight weeks, or you are unhappy with our answer, you may refer it to the Financial Ombudsman Service.",
     "id": "chunk-041"
+  },
+  {
+    "id": "table-001",
+    "type": "table_row",
+    "section": "3. Cover levels at a glance",
+    "clause": "Table 3: Accidental damage to your car",
+    "text": "Accidental damage to your car by cover level. Essential: Market value; Plus: Market value; Premier: Market value; Fire & Theft: Not included; Third Party: Not included."
+  },
+  {
+    "id": "table-002",
+    "type": "table_row",
+    "section": "3. Cover levels at a glance",
+    "clause": "Table 3: Fire and theft",
+    "text": "Fire and theft by cover level. Essential: Market value; Plus: Market value; Premier: Market value; Fire & Theft: Market value; Third Party: Not included."
+  },
+  {
+    "id": "table-003",
+    "type": "table_row",
+    "section": "3. Cover levels at a glance",
+    "clause": "Table 3: Windscreen replacement",
+    "text": "Windscreen replacement by cover level. Essential: Not included; Plus: £500 (approved) / £90 (other); Premier: £800 (approved) / £90 (other); Fire & Theft: Not included; Third Party: Not included."
+  },
+  {
+    "id": "table-004",
+    "type": "table_row",
+    "section": "3. Cover levels at a glance",
+    "clause": "Table 3: Stolen keys",
+    "text": "Stolen keys by cover level. Essential: £250; Plus: £500; Premier: £750; Fire & Theft: Not included; Third Party: Not included."
+  },
+  {
+    "id": "table-005",
+    "type": "table_row",
+    "section": "3. Cover levels at a glance",
+    "clause": "Table 3: Lost keys",
+    "text": "Lost keys by cover level. Essential: Not included; Plus: Not included; Premier: £400; Fire & Theft: Not included; Third Party: Not included."
+  },
+  {
+    "id": "table-006",
+    "type": "table_row",
+    "section": "3. Cover levels at a glance",
+    "clause": "Table 3: Misfuelling",
+    "text": "Misfuelling by cover level. Essential: Not included; Plus: Not included; Premier: Included; Fire & Theft: Not included; Third Party: Not included."
+  },
+  {
+    "id": "table-007",
+    "type": "table_row",
+    "section": "3. Cover levels at a glance",
+    "clause": "Table 3: Courtesy car",
+    "text": "Courtesy car by cover level. Essential: Not included; Plus: Up to 21 days; Premier: Up to 35 days; Fire & Theft: Not included; Third Party: Not included."
+  },
+  {
+    "id": "table-008",
+    "type": "table_row",
+    "section": "3. Cover levels at a glance",
+    "clause": "Table 3: Personal belongings",
+    "text": "Personal belongings by cover level. Essential: Not included; Plus: £150; Premier: £400; Fire & Theft: Not included; Third Party: Not included."
+  },
+  {
+    "id": "table-009",
+    "type": "table_row",
+    "section": "3. Cover levels at a glance",
+    "clause": "Table 3: Driving other cars",
+    "text": "Driving other cars by cover level. Essential: Not included; Plus: Conditional; Premier: Conditional; Fire & Theft: Conditional; Third Party: Conditional."
+  },
+  {
+    "id": "table-010",
+    "type": "table_row",
+    "section": "3. Cover levels at a glance",
+    "clause": "Table 3: Cover abroad (EU)",
+    "text": "Cover abroad (EU) by cover level. Essential: 60 days; Plus: 60 days; Premier: 60 days; Fire & Theft: 30 days; Third Party: 30 days."
+  },
+  {
+    "id": "table-011",
+    "type": "table_row",
+    "section": "3. Cover levels at a glance",
+    "clause": "Table 3: Third party property damage",
+    "text": "Third party property damage by cover level. Essential: £20m; Plus: £20m; Premier: £20m; Fire & Theft: £20m; Third Party: £20m."
   }
 ]

@@ -5,3 +5,4 @@ pytest
 pypdf
 numpy
 azure-ai-documentintelligence
+pdfplumber
