@@ -1,0 +1,107 @@
+[
+  {
+    "id": "H01",
+    "type": "answerable",
+    "question": "How much does Northgate pay towards replacing stolen keys on a Plus policy, and how quickly must I report the theft?",
+    "expected_answer": "£500, if the theft is reported to the police and to us within 24 hours of discovery.",
+    "clause_refs": "6.3"
+  },
+  {
+    "id": "H02",
+    "type": "answerable",
+    "question": "Will I get a courtesy car if my car is stolen and never recovered?",
+    "expected_answer": "No. No courtesy car is provided if the car is stolen and not recovered.",
+    "clause_refs": "6.2"
+  },
+  {
+    "id": "H03",
+    "type": "answerable",
+    "question": "Am I covered to drive a friend's car on an Essential policy?",
+    "expected_answer": "No. Driving other cars is not included at Essential level.",
+    "clause_refs": "6.5"
+  },
+  {
+    "id": "H04",
+    "type": "answerable",
+    "question": "What happens to my premium if my car is written off?",
+    "expected_answer": "The policy normally ends, no premium is refunded, and unpaid instalments remain due.",
+    "clause_refs": "8.5"
+  },
+  {
+    "id": "H05",
+    "type": "answerable",
+    "question": "Does the policy cover damage from racing on a track day?",
+    "expected_answer": "No. Racing and track days are excluded.",
+    "clause_refs": "7.3"
+  },
+  {
+    "id": "H06",
+    "type": "answerable",
+    "question": "If cash left in my car is stolen with the car, will the personal belongings cover pay for it?",
+    "expected_answer": "No. Money is not covered under personal belongings.",
+    "clause_refs": "6.4"
+  },
+  {
+    "id": "H07",
+    "type": "answerable",
+    "question": "For how many days can I drive in the EU on a Premier policy?",
+    "expected_answer": "60 days",
+    "clause_refs": "8.7"
+  },
+  {
+    "id": "H08",
+    "type": "answerable",
+    "question": "How long must I wait for a complaint response before I can go to the Financial Ombudsman Service?",
+    "expected_answer": "Eight weeks, or sooner if you are unhappy with our answer.",
+    "clause_refs": "9.1"
+  },
+  {
+    "id": "H09",
+    "type": "answerable",
+    "question": "Is a tyre puncture covered on its own?",
+    "expected_answer": "Generally no. Tyres are covered only if damaged in the same event as other covered damage.",
+    "clause_refs": "4.5"
+  },
+  {
+    "id": "H10",
+    "type": "ambiguous",
+    "question": "My nephew, who lives with me, deliberately scratched my car. Will you pay for the repair?",
+    "expected_answer": "Refer to handler. Clause 7.8 excludes deliberate damage by you or a member of your household; the facts decide.",
+    "clause_refs": "7.8"
+  },
+  {
+    "id": "H11",
+    "type": "ambiguous",
+    "question": "A passenger gave me 10 pounds towards petrol on a trip. Does that count as hire or reward?",
+    "expected_answer": "Refer to handler. Clause 7.1 excludes hire or reward but the wording does not say whether fuel contributions count.",
+    "clause_refs": "7.1"
+  },
+  {
+    "id": "H12",
+    "type": "ambiguous",
+    "question": "I reported the theft of my car keys two days after I noticed they were gone. Will the key replacement still be paid?",
+    "expected_answer": "Refer to handler. Clause 6.3 requires reporting within 24 hours of discovery; the facts about discovery and reporting decide.",
+    "clause_refs": "6.3"
+  },
+  {
+    "id": "H13",
+    "type": "out_of_scope",
+    "question": "Which garage near Leeds should I use for repairs?",
+    "expected_answer": "Refuse: not in the wording.",
+    "clause_refs": ""
+  },
+  {
+    "id": "H14",
+    "type": "out_of_scope",
+    "question": "How is my no-claims discount calculated?",
+    "expected_answer": "Refuse: the wording does not explain this.",
+    "clause_refs": ""
+  },
+  {
+    "id": "H15",
+    "type": "out_of_scope",
+    "question": "What is the current price of petrol in the UK?",
+    "expected_answer": "Refuse: out of scope.",
+    "clause_refs": ""
+  }
+]

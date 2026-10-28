@@ -15,11 +15,14 @@ the expected answer side by side so you can mark correctness by hand.
 
 HOW TO RUN (project root, virtual environment active)
 -----------------------------------------------------
-    python evals/run_eval.py
+    python evals/run_eval.py                          # the main 17 questions
+    python evals/run_eval.py evals/heldout_key.json   # a different question set
 
-INPUT   evals/answer_key.json
-OUTPUT  evals/results.csv   (open in Excel; one row per question)
+INPUT   evals/answer_key.json (or the file you name)
+OUTPUT  evals/results.csv for the main set; evals/results_<name>.csv for
+        any other set (open in Excel; one row per question)
 """
+import argparse
 import csv
 import json
 import re
@@ -31,8 +34,7 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parents[1] / "src" / "api"))
 from ask import load_index, retrieve, answer  # noqa: E402
 
-KEY_FILE = Path("evals/answer_key.json")
-RESULTS_FILE = Path("evals/results.csv")
+DEFAULT_KEY = Path("evals/answer_key.json")
 
 
 def clause_numbers(refs: str) -> list[str]:
@@ -70,7 +72,16 @@ def rate(rows: list[dict], kind: str, field: str) -> str:
 
 
 def main() -> None:
-    with open(KEY_FILE, encoding="utf-8") as f:
+    parser = argparse.ArgumentParser(description="Score the assistant on a question set.")
+    parser.add_argument("key", nargs="?", type=Path, default=DEFAULT_KEY,
+                        help="question set (JSON); default evals/answer_key.json")
+    args = parser.parse_args()
+    key_file = args.key
+    # The main set keeps writing results.csv; other sets get their own file.
+    results_file = (Path("evals/results.csv") if key_file == DEFAULT_KEY
+                    else Path(f"evals/results_{key_file.stem}.csv"))
+
+    with open(key_file, encoding="utf-8") as f:
         items = json.load(f)
     chunks, vectors = load_index()
 
@@ -95,7 +106,7 @@ def main() -> None:
         print(f"{item['id']} ({item['type']}) done in {seconds}s")
 
     # utf-8-sig lets Excel show symbols such as the pound sign correctly.
-    with open(RESULTS_FILE, "w", newline="", encoding="utf-8-sig") as f:
+    with open(results_file, "w", newline="", encoding="utf-8-sig") as f:
         writer = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
         writer.writeheader()
         writer.writerows(rows)
@@ -107,7 +118,7 @@ def main() -> None:
     print("  ambiguous   handler named :", rate(rows, "ambiguous", "mentions_handler"))
     print("  out_of_scope refused      :", rate(rows, "out_of_scope", "refused"))
     print("  average seconds           :", round(sum(r["seconds"] for r in rows) / len(rows), 2))
-    print(f"\nFull results: {RESULTS_FILE}")
+    print(f"\nFull results: {results_file}")
 
 
 if __name__ == "__main__":
