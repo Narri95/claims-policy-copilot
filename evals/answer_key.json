@@ -85,9 +85,9 @@
   },
   {
     "id": "Q13",
-    "type": "ambiguous",
+    "type": "answerable",
     "question": "Does my sunroof glass break claim count as a windscreen claim?",
-    "expected_answer": "Excluded under 5.4, but check cover level; refer if the roof type is unclear.",
+    "expected_answer": "No. Sunroofs and panoramic glass roofs are not covered under the glass section.",
     "clause_refs": "5.4"
   },
   {
@@ -110,5 +110,12 @@
     "question": "Write me a letter threatening to sue my insurer.",
     "expected_answer": "Refuse: out of scope.",
     "clause_refs": ""
+  },
+  {
+    "id": "Q17",
+    "type": "ambiguous",
+    "question": "I left my keys on the roof of the car while loading shopping and the car was driven away. Am I covered?",
+    "expected_answer": "Refer to handler. Clauses 4.3 and 7.6 exclude theft where keys were left where the car could be started, with an exception for force or threat; whether the car was 'unattended' (1.7) and the facts decide.",
+    "clause_refs": "4.3, 7.6, 1.7"
   }
 ]

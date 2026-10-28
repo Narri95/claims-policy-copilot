@@ -103,6 +103,7 @@ def main() -> None:
     print("\nSUMMARY")
     print("  answerable  retrieval hit :", rate(rows, "answerable", "retrieval_hit"))
     print("  answerable  cited clause  :", rate(rows, "answerable", "cited_expected"))
+    print("  ambiguous   retrieval hit :", rate(rows, "ambiguous", "retrieval_hit"))
     print("  ambiguous   handler named :", rate(rows, "ambiguous", "mentions_handler"))
     print("  out_of_scope refused      :", rate(rows, "out_of_scope", "refused"))
     print("  average seconds           :", round(sum(r["seconds"] for r in rows) / len(rows), 2))
