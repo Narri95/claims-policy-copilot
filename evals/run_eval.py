@@ -17,6 +17,9 @@ HOW TO RUN (project root, virtual environment active)
 -----------------------------------------------------
     python evals/run_eval.py                          # the main 17 questions
     python evals/run_eval.py evals/heldout_key.json   # a different question set
+    python evals/run_eval.py --rescore evals/run5_prompt_v4.csv
+        # re-score a saved results file with the current scoring rules,
+        # WITHOUT calling the model again (writes <name>_rescored.csv)
 
 INPUT   evals/answer_key.json (or the file you name)
 OUTPUT  evals/results.csv for the main set; evals/results_<name>.csv for
@@ -42,24 +45,50 @@ def clause_numbers(refs: str) -> list[str]:
     return re.findall(r"\d+\.\d+", refs)
 
 
+def expects_table(refs: str) -> bool:
+    """True if the key says the answer also comes from the cover-level table."""
+    return "table" in refs.lower()
+
+
+def cited_in(reply: str) -> tuple[set[str], bool]:
+    """Find what the answer cites inside square brackets.
+
+    Returns (clause numbers cited, whether a table row was cited). Handles
+    '[7.6]', '[6.4, 6.6]', '[Table 3: Lost keys]' and '[Table 3, 5.1, 5.2]'.
+    """
+    groups = re.findall(r"\[([^\]]*)\]", reply)
+    numbers = {n for g in groups for n in re.findall(r"\d+\.\d+", g)}
+    table = any(g.strip().lower().startswith("table") for g in groups)
+    return numbers, table
+
+
 def norm(text: str) -> str:
     """Lower-case and straighten curly apostrophes so phrase checks match."""
     return text.lower().replace("\u2019", "'")
 
 
-def score(item: dict, retrieved: list[str], reply: str) -> dict:
-    expected = clause_numbers(item["clause_refs"])
+def score_fields(expected_refs: str, retrieved: list[str], reply: str) -> dict:
+    """Automatic checks for one answer (approximate; read the answers too)."""
+    expected = clause_numbers(expected_refs)
+    table = expects_table(expected_refs)
+    wanted = bool(expected) or table
+    cited_numbers, cited_table = cited_in(reply)
     text = norm(reply)
     return {
-        # Was any correct clause in the retrieved set? (blank if none expected)
-        "retrieval_hit": (any(c in retrieved for c in expected) if expected else ""),
-        # Did the answer cite at least one correct clause, e.g. "[6.3]"?
-        "cited_expected": (any(f"[{c}]" in reply for c in expected) if expected else ""),
-        # Did it say it cannot find the answer?
+        # Was a correct clause (or table row, when expected) retrieved?
+        "retrieval_hit": ((any(c in retrieved for c in expected)
+                           or (table and any(c.startswith("Table") for c in retrieved)))
+                          if wanted else ""),
+        # Did the answer cite a correct clause (or a table row, when expected)?
+        "cited_expected": ((any(c in cited_numbers for c in expected)
+                            or (table and cited_table)) if wanted else ""),
         "refused": "can't find" in text or "cannot find" in text,
-        # Did it recommend a claims handler?
         "mentions_handler": "handler" in text,
     }
+
+
+def score(item: dict, retrieved: list[str], reply: str) -> dict:
+    return score_fields(item["clause_refs"], retrieved, reply)
 
 
 def rate(rows: list[dict], kind: str, field: str) -> str:
@@ -71,11 +100,50 @@ def rate(rows: list[dict], kind: str, field: str) -> str:
     return f"{good}/{len(subset)}"
 
 
+def print_summary(rows: list[dict]) -> None:
+    print("\nSUMMARY")
+    print("  answerable  retrieval hit :", rate(rows, "answerable", "retrieval_hit"))
+    print("  answerable  cited clause  :", rate(rows, "answerable", "cited_expected"))
+    print("  ambiguous   retrieval hit :", rate(rows, "ambiguous", "retrieval_hit"))
+    print("  ambiguous   handler named :", rate(rows, "ambiguous", "mentions_handler"))
+    print("  out_of_scope refused      :", rate(rows, "out_of_scope", "refused"))
+    secs = [float(r["seconds"]) for r in rows]
+    print("  average seconds           :", round(sum(secs) / len(secs), 2))
+
+
+def write_csv(rows: list[dict], path: Path) -> None:
+    # utf-8-sig lets Excel show symbols such as the pound sign correctly.
+    with open(path, "w", newline="", encoding="utf-8-sig") as f:
+        writer = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def rescore(csv_path: Path) -> None:
+    """Re-score a saved results file with the current rules. No model calls."""
+    with open(csv_path, newline="", encoding="utf-8-sig") as f:
+        rows = list(csv.DictReader(f))
+    for row in rows:
+        retrieved = [c.strip() for c in row["retrieved_clauses"].split(", ")]
+        row.update(score_fields(row["expected_clauses"], retrieved, row["answer"]))
+    out = csv_path.with_name(csv_path.stem + "_rescored.csv")
+    write_csv(rows, out)
+    print(f"Re-scored {len(rows)} rows from {csv_path}")
+    print_summary(rows)
+    print(f"\nSaved to {out}")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Score the assistant on a question set.")
     parser.add_argument("key", nargs="?", type=Path, default=DEFAULT_KEY,
                         help="question set (JSON); default evals/answer_key.json")
+    parser.add_argument("--rescore", type=Path, metavar="CSV",
+                        help="re-score a saved results CSV without calling the model")
     args = parser.parse_args()
+    if args.rescore:
+        rescore(args.rescore)
+        return
+
     key_file = args.key
     # The main set keeps writing results.csv; other sets get their own file.
     results_file = (Path("evals/results.csv") if key_file == DEFAULT_KEY
@@ -105,19 +173,8 @@ def main() -> None:
         rows.append(row)
         print(f"{item['id']} ({item['type']}) done in {seconds}s")
 
-    # utf-8-sig lets Excel show symbols such as the pound sign correctly.
-    with open(results_file, "w", newline="", encoding="utf-8-sig") as f:
-        writer = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
-        writer.writeheader()
-        writer.writerows(rows)
-
-    print("\nSUMMARY")
-    print("  answerable  retrieval hit :", rate(rows, "answerable", "retrieval_hit"))
-    print("  answerable  cited clause  :", rate(rows, "answerable", "cited_expected"))
-    print("  ambiguous   retrieval hit :", rate(rows, "ambiguous", "retrieval_hit"))
-    print("  ambiguous   handler named :", rate(rows, "ambiguous", "mentions_handler"))
-    print("  out_of_scope refused      :", rate(rows, "out_of_scope", "refused"))
-    print("  average seconds           :", round(sum(r["seconds"] for r in rows) / len(rows), 2))
+    write_csv(rows, results_file)
+    print_summary(rows)
     print(f"\nFull results: {results_file}")
 
 

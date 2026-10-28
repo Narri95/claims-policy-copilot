@@ -18,7 +18,7 @@
     "type": "answerable",
     "question": "Am I covered to drive a friend's car on an Essential policy?",
     "expected_answer": "No. Driving other cars is not included at Essential level.",
-    "clause_refs": "6.5"
+    "clause_refs": "6.5, 3 table"
   },
   {
     "id": "H04",
@@ -46,7 +46,7 @@
     "type": "answerable",
     "question": "For how many days can I drive in the EU on a Premier policy?",
     "expected_answer": "60 days",
-    "clause_refs": "8.7"
+    "clause_refs": "8.7, 3 table"
   },
   {
     "id": "H08",
