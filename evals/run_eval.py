@@ -37,9 +37,11 @@ from pathlib import Path
 
 # ask.py and foundry_client.py live in src/api.
 sys.path.append(str(Path(__file__).resolve().parents[1] / "src" / "api"))
-from ask import load_index, retrieve, answer  # noqa: E402
+from ask import load_index, run_pipeline  # noqa: E402
 
 DEFAULT_KEY = Path("evals/answer_key.json")
+# Which question kind the first model call should detect for each key type.
+EXPECTED_KIND = {"answerable": "policy", "ambiguous": "incident", "out_of_scope": "other"}
 
 
 def clause_numbers(refs: str) -> list[str]:
@@ -110,6 +112,8 @@ def print_summary(rows: list[dict]) -> None:
     print("  ambiguous   retrieval hit :", rate(rows, "ambiguous", "retrieval_hit"))
     print("  ambiguous   handler named :", rate(rows, "ambiguous", "mentions_handler"))
     print("  out_of_scope refused      :", rate(rows, "out_of_scope", "refused"))
+    if rows and isinstance(rows[0].get("kind_ok"), bool):
+        print("  question type detected    :", f"{sum(r['kind_ok'] for r in rows)}/{len(rows)}")
     secs = [float(r["seconds"]) for r in rows]
     print("  average seconds           :", round(sum(secs) / len(secs), 2))
 
@@ -159,9 +163,9 @@ def main() -> None:
     rows = []
     for item in items:
         start = time.perf_counter()
-        hits = retrieve(item["question"], chunks, vectors)
-        reply = answer(item["question"], hits)
+        result = run_pipeline(item["question"], chunks, vectors)
         seconds = round(time.perf_counter() - start, 2)
+        hits, reply = result["hits"], result["reply"]
 
         retrieved = [c["clause"] for c, _ in hits]
         row = {
@@ -169,6 +173,8 @@ def main() -> None:
             "expected_answer": item["expected_answer"],
             "expected_clauses": item["clause_refs"],
             "retrieved_clauses": ", ".join(retrieved),
+            "kind": result["kind"], "kind_ok": result["kind"] == EXPECTED_KIND[item["type"]],
+            "search_text": result["search_text"],
             "answer": reply.replace("\n", " "), "seconds": seconds,
             **score(item, retrieved, reply),
             "correct_by_hand": "",      # you fill this in: yes / no / partly

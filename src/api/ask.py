@@ -3,13 +3,21 @@
 WHY THIS FILE EXISTS
 --------------------
 This is the first working version of the assistant (the "PoC"). It does RAG:
+  0. UNDERSTAND  a first, short model call classifies the question as
+             "policy" (what does the wording say?), "incident" (something
+             happened to me, am I covered?) or "other" (not answerable from a
+             policy wording), and rewrites it in insurance vocabulary. This
+             fixes searches that missed clauses because the customer used
+             different words than the policy ("two drinks" vs "alcohol limit").
   1. EMBED   the question into a vector.
   2. SEARCH  find the best clauses with HYBRID search: meaning (vector
              cosine similarity) plus exact words (BM25 keyword score), merged
              with Reciprocal Rank Fusion. Meaning alone missed the clause on
              "reasonable care"; keywords find it.
   3. ANSWER  ask the chat model to answer using ONLY those clauses (plus the
-             definitions, which are always included) and to cite clause numbers.
+             definitions, and for incidents also all exclusions) and to cite
+             clause numbers. Policy questions get a direct answer; incident
+             questions get a three-part answer that never gives a verdict.
 
 The assistant never decides a claim. If the wording does not cover the
 question, or the outcome depends on facts, it must say so and refer the
@@ -80,39 +88,56 @@ def write_audit(record: dict) -> None:
     with open(LOG_DIR / "audit.jsonl", "a", encoding="utf-8") as f:
         f.write(json.dumps(record, ensure_ascii=False) + "\n")
 
-SYSTEM_PROMPT = """You are a claims-handler assistant for Northgate Motor Cover.
+REFUSAL = "I can't find this in the policy wording."
+
+CLASSIFY_PROMPT = """You help a search system for a motor insurance policy wording.
+Classify the user's question and rewrite it as search terms.
+
+kind:
+- "policy": a general question about what the policy says, covers, requires or defines.
+- "incident": the person describes something that happened to them or their car
+  and asks whether it is covered or whether we will pay.
+- "other": cannot be answered from a policy wording (garage recommendations,
+  prices, phone numbers, how a discount is calculated, general knowledge).
+
+search_text: 10 to 25 words in insurance-policy vocabulary naming the clauses that
+may apply, including exclusions and defined terms. Example: for "someone keyed my
+car overnight" write "malicious damage vandalism cover; deliberate damage exclusion".
+
+Reply with JSON only: {"kind": "policy", "search_text": "..."}"""
+
+COMMON_RULES = """You are a claims-handler assistant for Northgate Motor Cover.
 Answer using ONLY the policy clauses provided in the user message.
 
-General rules:
+Rules:
 - Cite each fact using EXACTLY the label shown in square brackets at the start of
-  the clause you used, for example [7.6] or [Table 3: Lost keys]. Never shorten
-  or invent a label such as [3].
-- Stay faithful to the clause wording. Do not turn an option into a requirement,
-  and do not add conditions, amounts or advice the clauses do not state.
+  the clause you used, for example [7.6] or [Table 3: Lost keys]. Never shorten,
+  combine or invent a label.
+- Stay faithful to the clause wording. Keep conditions and alternatives exactly as
+  written (and / or). Do not add conditions, amounts or advice the clauses do not state.
 - Do not use outside knowledge. Do not guess amounts or conditions.
 - Never decide, approve or decline a claim. You provide decision support only.
-- Keep the answer short and clear.
+- If the clauses do not answer the question, reply only: "I can't find this in the policy wording."
+- The definitions (clauses 1.1 to 1.7) are always provided. Only say a term is
+  undefined if it is missing from them."""
 
-Three kinds of question:
-1. QUESTION ABOUT THE POLICY ("Does Essential cover lost keys?", "How long do I
-   have to report an incident?"): answer directly from the clauses.
-2. QUESTION ABOUT A SPECIFIC INCIDENT (the person describes something that
-   happened to them and asks whether they are covered or whether we will pay):
-   never give a verdict. Write exactly three parts:
-   a) "What the wording says": quote the relevant clauses, including any
-      exception and any defined term (for example "unattended").
-   b) "Facts a handler must confirm": a short list. Do not say whether the
-      person's facts meet or fail a condition, and do not write "therefore"
-      followed by a conclusion about their claim.
-   c) End with exactly this sentence: "Please refer this case to a claims handler."
-3. QUESTION NOT ANSWERED BY THE WORDING (garages, prices, how a discount is
-   calculated, general knowledge): reply with only this sentence and nothing
-   else: "I can't find this in the policy wording."
+POLICY_PROMPT = COMMON_RULES + """
 
-The definitions (clauses 1.1 to 1.7) are always provided in full. Only say a term
-is undefined if it is missing from them (for example "reasonable care"); in that
-case say the wording does not define it and recommend referring the case to a
-claims handler. If a clause such as an exclusion mentions that term, quote it."""
+This is a QUESTION ABOUT THE POLICY. Answer it directly in one to four sentences,
+quoting or closely following the clause. Do not recommend a claims handler unless
+the clauses are genuinely ambiguous or silent on the exact point asked."""
+
+INCIDENT_PROMPT = COMMON_RULES + """
+
+This is a QUESTION ABOUT A SPECIFIC INCIDENT. Never give a verdict. Check the cover
+clauses AND the exclusions provided, and write exactly three parts:
+a) "What the wording says": quote every clause that could apply, including any
+   exclusion, exception and defined term (for example "unattended").
+b) "Facts a handler must confirm": a short list. Do not say whether the person's
+   facts meet or fail a condition, and do not write "therefore" followed by a
+   conclusion about their claim.
+c) End with exactly this sentence: "Please refer this case to a claims handler."
+"""
 
 
 def load_index() -> tuple[list[dict], np.ndarray]:
@@ -189,11 +214,46 @@ def definitions() -> list[dict]:
         return [c for c in json.load(f) if c["section"].startswith("1.")]
 
 
-def answer(question: str, hits: list[tuple[dict, float]]) -> str:
-    """Ask the chat model to answer from the retrieved clauses plus definitions."""
+@lru_cache(maxsize=1)
+def exclusions() -> list[dict]:
+    """The general exclusions (section 7). For an incident, a cover clause is
+    never enough on its own: the exclusions must be checked too."""
+    with open(DATA_DIR / "chunks_embedded.json", encoding="utf-8") as f:
+        return [c for c in json.load(f) if c["section"].startswith("7.")]
+
+
+def understand(question: str) -> tuple[str, str]:
+    """Classify the question and rewrite it for searching. Returns (kind, search_text).
+
+    If the model's reply cannot be read, fall back to "incident": that is the
+    cautious format (never gives a verdict).
+    """
+    response = chat_client().chat.completions.create(
+        model=CHAT_DEPLOYMENT,
+        temperature=0,
+        messages=[{"role": "system", "content": CLASSIFY_PROMPT},
+                  {"role": "user", "content": question}],
+    )
+    text = re.sub(r"^```(?:json)?|```$", "", response.choices[0].message.content.strip(),
+                  flags=re.MULTILINE).strip()
+    try:
+        data = json.loads(text)
+        kind, search_text = data.get("kind"), str(data.get("search_text", ""))
+    except (json.JSONDecodeError, AttributeError):
+        logger.warning("classifier reply not readable: %r", text[:200])
+        return "incident", ""
+    if kind not in ("policy", "incident", "other"):
+        logger.warning("unknown kind %r; using incident", kind)
+        kind = "incident"
+    return kind, search_text
+
+
+def answer(question: str, hits: list[tuple[dict, float]], kind: str = "incident") -> str:
+    """Ask the chat model to answer from the retrieved clauses plus definitions
+    (and, for incidents, all exclusions)."""
+    extra = definitions() + (exclusions() if kind == "incident" else [])
     shown = {c["clause"] for c, _ in hits}
-    extra = [d for d in definitions() if d["clause"] not in shown]
-    clauses = [c for c, _ in hits] + extra
+    clauses = [c for c, _ in hits] + [d for d in extra if d["clause"] not in shown]
     context = "\n\n".join(f"[{c['clause']}] ({c['section']})\n{c['text']}" for c in clauses)
     user_message = f"Policy clauses:\n{context}\n\nQuestion: {question}"
 
@@ -201,11 +261,22 @@ def answer(question: str, hits: list[tuple[dict, float]]) -> str:
         model=CHAT_DEPLOYMENT,
         temperature=0,    # same question, same answer: easier to test
         messages=[
-            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "system", "content": INCIDENT_PROMPT if kind == "incident" else POLICY_PROMPT},
             {"role": "user", "content": user_message},
         ],
     )
     return response.choices[0].message.content
+
+
+def run_pipeline(question: str, chunks, vectors) -> dict:
+    """Understand, search and answer one question. Returns everything needed
+    for display, logging and evaluation."""
+    kind, search_text = understand(question)
+    if kind == "other":                      # nothing to search for: refuse
+        return {"kind": kind, "search_text": search_text, "hits": [], "reply": REFUSAL}
+    hits = retrieve(f"{question} {search_text}".strip(), chunks, vectors)
+    return {"kind": kind, "search_text": search_text, "hits": hits,
+            "reply": answer(question, hits, kind)}
 
 
 def ask(question: str, chunks, vectors) -> str:
@@ -214,19 +285,21 @@ def ask(question: str, chunks, vectors) -> str:
     logger.info("[%s] question received: %s", request_id, question)
     start = time.perf_counter()
     try:
-        hits = retrieve(question, chunks, vectors)
-        reply = answer(question, hits)
+        result = run_pipeline(question, chunks, vectors)
     except Exception:
         logger.exception("[%s] failed", request_id)   # full error into app.log
         raise
     seconds = round(time.perf_counter() - start, 2)
+    hits, reply = result["hits"], result["reply"]
 
-    logger.info("[%s] answered in %ss using clauses %s", request_id, seconds,
-                [c["clause"] for c, _ in hits])
+    logger.info("[%s] kind=%s answered in %ss using clauses %s", request_id,
+                result["kind"], seconds, [c["clause"] for c, _ in hits])
     write_audit({
         "request_id": request_id,
         "time_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "question": question,
+        "kind": result["kind"],
+        "search_text": result["search_text"],
         "retrieved": [{"clause": c["clause"], "score": round(s, 3)} for c, s in hits],
         "definitions_included": True,
         "answer": reply,
@@ -235,7 +308,8 @@ def ask(question: str, chunks, vectors) -> str:
         "embed_model": EMBED_DEPLOYMENT,
     })
 
-    print("\nRetrieved clauses (score):")
+    print(f"\nQuestion type: {result['kind']}   Search terms: {result['search_text']}")
+    print("Retrieved clauses (score):")
     for c, score in hits:
         print(f"  [{c['clause']}] {score:.2f}  {c['text'][:70]}...")
     print("\nAnswer:\n" + reply + f"\n\n({seconds}s, request {request_id})\n")
