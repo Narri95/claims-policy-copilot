@@ -8,6 +8,8 @@ answer key and produces numbers you can track as the system changes:
   - citation rate      : did the answer cite a correct clause?
   - refusal rate       : did out-of-scope questions get a refusal?
   - handler referral   : did ambiguous questions get referred to a handler?
+  - needless referral  : answerable questions that were referred to a handler
+                         anyway (should be 0; over-cautious answers cost time)
   - average seconds    : speed per question
 
 These checks are automatic and approximate. The CSV also has the answer and
@@ -104,6 +106,7 @@ def print_summary(rows: list[dict]) -> None:
     print("\nSUMMARY")
     print("  answerable  retrieval hit :", rate(rows, "answerable", "retrieval_hit"))
     print("  answerable  cited clause  :", rate(rows, "answerable", "cited_expected"))
+    print("  answerable  needless handler referral (want 0):", rate(rows, "answerable", "mentions_handler"))
     print("  ambiguous   retrieval hit :", rate(rows, "ambiguous", "retrieval_hit"))
     print("  ambiguous   handler named :", rate(rows, "ambiguous", "mentions_handler"))
     print("  out_of_scope refused      :", rate(rows, "out_of_scope", "refused"))

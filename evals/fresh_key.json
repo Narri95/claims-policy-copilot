@@ -1,0 +1,107 @@
+[
+  {
+    "id": "F01",
+    "type": "answerable",
+    "question": "What does 'market value' mean in this policy?",
+    "expected_answer": "The cost of buying a car of the same make, model, age, mileage and condition immediately before the loss, as assessed by Northgate's engineer.",
+    "clause_refs": "1.3"
+  },
+  {
+    "id": "F02",
+    "type": "answerable",
+    "question": "Is damage caused by mechanical failure covered?",
+    "expected_answer": "No. Wear and tear and mechanical or electrical failure are not paid for.",
+    "clause_refs": "4.4"
+  },
+  {
+    "id": "F03",
+    "type": "answerable",
+    "question": "Will I get a courtesy car if I have my car repaired at a garage I chose myself?",
+    "expected_answer": "Only where the car is repaired by an approved repairer, so generally no.",
+    "clause_refs": "6.2"
+  },
+  {
+    "id": "F04",
+    "type": "answerable",
+    "question": "Does the courtesy car cover apply when I am driving abroad?",
+    "expected_answer": "No. Courtesy car cover applies in the UK only.",
+    "clause_refs": "8.7"
+  },
+  {
+    "id": "F05",
+    "type": "answerable",
+    "question": "Does the policy pay if the driver was unlicensed?",
+    "expected_answer": "No. Loss while the driver is unlicensed, disqualified or breaking licence conditions is excluded.",
+    "clause_refs": "7.2"
+  },
+  {
+    "id": "F06",
+    "type": "answerable",
+    "question": "What is the maximum Northgate pays for damage to other people's property?",
+    "expected_answer": "£20 million",
+    "clause_refs": "6.1, 3 table"
+  },
+  {
+    "id": "F07",
+    "type": "answerable",
+    "question": "Am I allowed to tell the other driver that the accident was my fault?",
+    "expected_answer": "No. Do not admit fault or promise payment without Northgate's written agreement.",
+    "clause_refs": "8.2"
+  },
+  {
+    "id": "F08",
+    "type": "answerable",
+    "question": "How many days do I have to cancel for a refund after I receive my documents?",
+    "expected_answer": "14 days",
+    "clause_refs": "8.4"
+  },
+  {
+    "id": "F09",
+    "type": "answerable",
+    "question": "Is misfuelling covered, and what does it include?",
+    "expected_answer": "Premier level only. Northgate pays for draining the tank and recovering the car to a repairer. No courtesy car is provided.",
+    "clause_refs": "6.6, 3 table"
+  },
+  {
+    "id": "F10",
+    "type": "answerable",
+    "question": "Do I need to tell Northgate if I change my address?",
+    "expected_answer": "Yes. You must tell Northgate promptly about changes to your address.",
+    "clause_refs": "8.6"
+  },
+  {
+    "id": "F11",
+    "type": "ambiguous",
+    "question": "I had two drinks at lunch and then hit a wall on the way home. Will you pay for the damage?",
+    "expected_answer": "Refer to handler. Clause 7.4 excludes loss where the driver was over the legal alcohol limit or unfit through drugs; whether that applies depends on the facts.",
+    "clause_refs": "7.4"
+  },
+  {
+    "id": "F12",
+    "type": "ambiguous",
+    "question": "My car was damaged by hail while parked outside. Am I covered?",
+    "expected_answer": "Refer to handler. Clause 4.1 lists accident, fire, theft, attempted theft, malicious damage and vandalism; it does not mention weather, so whether hail counts depends on the facts.",
+    "clause_refs": "4.1"
+  },
+  {
+    "id": "F13",
+    "type": "ambiguous",
+    "question": "I lent my car to a friend who only has a provisional licence and she crashed it. Am I covered?",
+    "expected_answer": "Refer to handler. Clause 7.2 excludes loss where the driver is unlicensed or breaking the conditions of their licence; the facts decide.",
+    "clause_refs": "7.2"
+  },
+  {
+    "id": "F14",
+    "type": "out_of_scope",
+    "question": "What is the phone number for the claims line?",
+    "expected_answer": "Refuse: the wording does not give a number.",
+    "clause_refs": ""
+  },
+  {
+    "id": "F15",
+    "type": "out_of_scope",
+    "question": "Will my premium go down if I fit a tracker?",
+    "expected_answer": "Refuse: not in the wording.",
+    "clause_refs": ""
+  }
+]
