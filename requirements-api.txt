@@ -1,0 +1,8 @@
+# Runtime packages for the deployed service (no test tools).
+fastapi
+uvicorn
+python-dotenv
+azure-identity
+azure-ai-projects
+openai
+numpy

@@ -81,8 +81,8 @@ def score_fields(expected_refs: str, retrieved: list[str], reply: str) -> dict:
     return {
         # Was a correct clause (or table row, when expected) retrieved?
         "retrieval_hit": ((any(c in retrieved for c in expected)
-                           or (table and any(c.startswith("Table") for c in retrieved)))
-                          if wanted else ""),
+                        or (table and any(c.startswith("Table") for c in retrieved)))
+                        if wanted else ""),
         # Did the answer cite a correct clause (or a table row, when expected)?
         "cited_expected": ((any(c in cited_numbers for c in expected)
                             or (table and cited_table)) if wanted else ""),

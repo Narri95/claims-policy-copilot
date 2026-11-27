@@ -6,3 +6,6 @@ pypdf
 numpy
 azure-ai-documentintelligence
 pdfplumber
+fastapi
+uvicorn
+httpx
